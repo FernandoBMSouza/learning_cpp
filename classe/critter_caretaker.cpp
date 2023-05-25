@@ -16,6 +16,8 @@ class Critter
         void Talk();
         void Eat(int food = 4);
         void Play(int fun = 4);
+        int GetHunger();
+        int GetBoredom();
 };
 
 Critter::Critter(int hunger, int boredom):
@@ -23,6 +25,16 @@ Critter::Critter(int hunger, int boredom):
     m_Boredom(boredom)
 {
 
+}
+
+int Critter::GetHunger()
+{
+    return m_Hunger;
+}
+
+int Critter::GetBoredom()
+{
+    return m_Boredom;
 }
 
 inline int Critter::GetMood() const
@@ -43,19 +55,27 @@ void Critter::Talk()
     int mood = GetMood();
     if(mood > 15)
     {
-        cout << "mad.\n";
+        cout << "mad, my boredom is " << 
+        m_Boredom << " and my hungry is " <<
+        m_Hunger << ".\n";
     }
     else if(mood > 10)
     {
-        cout << "frustated.\n";
+        cout << "frustated, my boredom is " << 
+        m_Boredom << " and my hungry is " <<
+        m_Hunger << ".\n";
     }
     else if(mood > 5)
     {
-        cout << "okay.\n";
+        cout << "okay, my boredom is " << 
+        m_Boredom << " and my hungry is " <<
+        m_Hunger << ".\n";
     }
     else
     {
-        cout << "happy.\n";
+        cout << "happy, my boredom is " << 
+        m_Boredom << " and my hungry is " <<
+        m_Hunger << ".\n";
     }
     PassTime();
 }
@@ -96,7 +116,8 @@ int main()
         cout << "0 - Quit\n";
         cout << "1 - Listen to you critter\n";
         cout << "2 - Feed your critter\n";
-        cout << "3 - Play with your critter\n\n";
+        cout << "3 - Play with your critter\n";
+        cout << "4 - Show Critter status\n\n";
 
         cout << "Choice: ";
         cin >> choice;
@@ -114,7 +135,11 @@ int main()
             break;
         case 3:
             crit.Play();
-            break;        
+            break;
+        case 4:
+            cout << "Hunger: " << crit.GetHunger() << endl;
+            cout << "Boredom: " << crit.GetBoredom() << "\n\n";        
+            break;
         default:
             cout << "\nSorry, but " << choice << " isn't a valid choice.\n";
         }
