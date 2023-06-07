@@ -92,9 +92,11 @@ void Lobby::AddPlayer()
     //otherwise find the end of the list and add the player there
     else
     {
+        //Solução otimizada onde o ponteiro m_pTail guarda sempre o endereço do último nó da lista, facilitando a adição do novo player
         m_pTail->SetNext(pNewPlayer); // Faz com que o ponteiro m_pNext do player que está apontando receba o player que é apontado pelo pNewPlayer
         m_pTail = m_pTail->GetNext(); // Agora faz com que o ponteiro m_pTail aponte pro mesmo local do player criado, mantendo assim sempre no último player
         
+        // Solução que precisa iterar por todos os nós para adicionar na última posição da lista
         // Player* pIter = m_pHead;
         // while (pIter->GetNext() != 0)
         // {
