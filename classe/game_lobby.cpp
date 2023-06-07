@@ -10,6 +10,7 @@ using namespace std;
 // -------------------- PLAYER CLASS -----------------
 class Player
 {
+    friend ostream& operator<<(ostream& os, const Player& aPlayer); 
 public:
     Player(const string& name = "");
     string GetName() const;
@@ -40,6 +41,12 @@ void Player::SetNext(Player* next)
 {
     m_pNext = next;
 }
+
+ostream& operator<<(ostream& os, const Player& aPlayer)
+{
+    os << aPlayer.m_Name;
+    return os;
+}
 #pragma endregion
 
 #pragma region Lobby 
@@ -49,6 +56,7 @@ class Lobby
     friend ostream& operator<<(ostream& os, const Lobby& aLobby);
 private:
     Player* m_pHead;
+    Player* m_pTail;    // add pointer to lobby for last player node
 public:
     Lobby();
     ~Lobby();
@@ -58,7 +66,8 @@ public:
 };
 
 Lobby::Lobby():
-    m_pHead(0)
+    m_pHead(0),
+    m_pTail(0)  // set last player node to 0
 {}
 
 Lobby::~Lobby()
@@ -78,16 +87,20 @@ void Lobby::AddPlayer()
     if (m_pHead == 0)
     {
         m_pHead = pNewPlayer;
+        m_pTail = m_pHead; // Isso vai fazer que o m_pTail aponte para o primeiro player criado na lista
     }
     //otherwise find the end of the list and add the player there
     else
     {
-        Player* pIter = m_pHead;
-        while (pIter->GetNext() != 0)
-        {
-            pIter = pIter->GetNext();
-        }
-        pIter->SetNext(pNewPlayer);
+        m_pTail->SetNext(pNewPlayer); // Faz com que o ponteiro m_pNext do player que está apontando receba o player que é apontado pelo pNewPlayer
+        m_pTail = m_pTail->GetNext(); // Agora faz com que o ponteiro m_pTail aponte pro mesmo local do player criado, mantendo assim sempre no último player
+        
+        // Player* pIter = m_pHead;
+        // while (pIter->GetNext() != 0)
+        // {
+        //     pIter = pIter->GetNext();
+        // }
+        // pIter->SetNext(pNewPlayer);
     }
 }
 
@@ -125,7 +138,7 @@ ostream& operator<<(ostream& os, const Lobby& aLobby)
     {
         while (pIter != 0)
         {
-            os << pIter->GetName() << endl;
+            os << *pIter << endl;
             pIter = pIter->GetNext();
             //(*pIter).GetNext() and (*pIter).GetName();
         }
